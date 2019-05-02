@@ -6,8 +6,8 @@ This problem provides practice at:
 
 Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
          Mark Hays, Amanda Stouder, Aaron Wilkin, their colleagues,
-         and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         and Sam Alvares.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 ###############################################################################
 # Students:
@@ -135,13 +135,19 @@ def practice_problem4a(sequence):
       :type sequence: list | tuple | string
     """
     ###########################################################################
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #     The testing code is already written for you (above).
     ###########################################################################
     # DIFFICULTY AND TIME RATINGS (see top of this file for explanation)
     #    DIFFICULTY:      7
     #    TIME ESTIMATE:   15 minutes.
     ###########################################################################
+
+    results = []
+    for k in range(len(sequence)-1):
+        if sequence[k] == sequence[k+1]:
+            results.append(k)
+    return results
 
 
 def run_test_practice_problem4b():
@@ -198,13 +204,18 @@ def practice_problem4b(sequence):
       :type sequence: (list | tuple) of (float | int)
     """
     # -------------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # DONE: 3. Implement and test this function.
     #     The testing code is already written for you (above).
     ###########################################################################
     # DIFFICULTY AND TIME RATINGS (see top of this file for explanation)
     #    DIFFICULTY:      5
     #    TIME ESTIMATE:   10 minutes.
     ###########################################################################
+    k_max = 0
+    for k in range(0, len(sequence)-2, 2):
+        if sequence[k+2] > sequence[k_max]:
+            k_max = k+2
+    return sequence[k_max]
 
 
 def run_test_practice_problem4c():
@@ -296,7 +307,7 @@ def practice_problem4c(points):
       :rtype: rg.Point | string
     """
     ###########################################################################
-    # TODO: 4. Implement and test this function.
+    # DONE: 4. Implement and test this function.
     #     The testing code is already written for you (above).
     #
     # IMPORTANT: This problem is your LOWEST PRIORITY for preparing
@@ -307,6 +318,14 @@ def practice_problem4c(points):
     #    DIFFICULTY:      9
     #    TIME ESTIMATE:   15 minutes.
     ###########################################################################
+
+    for k in range(len(points)):
+        if is_prime(points[k].x) and is_prime(points[k].y):
+            holder = points[k].x
+            points[k].x = points[k].y
+            points[k].y = holder
+            return points[k]
+    return 'Not found'
 
 
 def run_test_practice_problem4d():
@@ -392,7 +411,7 @@ def practice_problem4d(sequence):
       :rtype: int
     """
     ###########################################################################
-    # TODO: 5. Implement and test this function.
+    # DONE: 5. Implement and test this function.
     #     The testing code is already written for you (above).
     ###########################################################################
     # DIFFICULTY AND TIME RATINGS (see top of this file for explanation)
@@ -400,6 +419,12 @@ def practice_problem4d(sequence):
     #    TIME ESTIMATE:   15 minutes.
     ###########################################################################
 
+    sum = 0
+    for k in range(len(sequence)-1):
+        if is_prime(sequence[k]) and is_prime(sequence[k+1]):
+            if sequence[k] != sequence[k+1]:
+                sum = sum + sequence[k]
+    return sum
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
