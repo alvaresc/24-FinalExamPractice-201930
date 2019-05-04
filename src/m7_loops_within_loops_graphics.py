@@ -6,8 +6,8 @@ This problem provides practice at:
 
 Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
          Mark Hays, Amanda Stouder, Aaron Wilkin, their colleagues,
-         and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         and Sam Alvares.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 ###############################################################################
 # Students:
@@ -30,6 +30,7 @@ Authors: David Mutchler, Vibha Alangar, Matt Boutell, Dave Fisher,
 ###############################################################################
 
 import rosegraphics as rg
+import math
 
 
 def main():
@@ -90,7 +91,7 @@ def hourglass(window, n, point, radius, color):
     a color that rosegraphics understands.
     """
     # -------------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #       We provided some tests for you (above).
     # -------------------------------------------------------------------------
     ###########################################################################
@@ -102,6 +103,40 @@ def hourglass(window, n, point, radius, color):
     #    DIFFICULTY:      8
     #    TIME ESTIMATE:  25 minutes (warning: this problem is challenging)
     # -------------------------------------------------------------------------
+
+    og_center = point
+
+    x_val = point.x
+    y_val = point.y
+
+    for k in range(n):
+        for j in range(k+1):
+            circle = rg.Circle(rg.Point(x_val, y_val), radius)
+            circle.attach_to(window)
+            circle.fill_color = color
+            line = rg.Line(rg.Point((x_val-radius), y_val), rg.Point((x_val+radius), y_val))
+            line.attach_to(window)
+            window.render(.01)
+            x_val = x_val + 2*radius
+
+        x_val = og_center.x - 2*radius*(k+1)*math.cos(60*math.pi/180)
+        y_val = y_val - 2*radius*math.sin(60*math.pi/180)
+
+    x_val = og_center.x
+    y_val = og_center.y
+
+    for k in range(n):
+        for j in range(k+1):
+            circle = rg.Circle(rg.Point(x_val, y_val), radius)
+            circle.attach_to(window)
+            circle.fill_color = color
+            line = rg.Line(rg.Point((x_val-radius), y_val), rg.Point((x_val+radius), y_val))
+            line.attach_to(window)
+            window.render(.01)
+            x_val = x_val + 2*radius
+
+        x_val = og_center.x - 2*radius*(k+1)*math.cos(60*math.pi/180)
+        y_val = y_val + 2*radius*math.sin(60*math.pi/180)
 
 
 def run_test_many_hourglasses():
@@ -164,7 +199,7 @@ def many_hourglasses(window, square, m, colors):
     each of which denotes a color that rosegraphics understands.
     """
     # -------------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # DONE: 3. Implement and test this function.
     #       We provided some tests for you (above).
     # -------------------------------------------------------------------------
     ###########################################################################
@@ -180,6 +215,28 @@ def many_hourglasses(window, square, m, colors):
     #                         a correct "hourglass" function above)
     #    TIME ESTIMATE:  20 minutes (warning: this problem is challenging)
     # -------------------------------------------------------------------------
+
+    square.attach_to(window)
+    OG_center = square.center
+
+    BR = rg.Point(square.center.x + square.length_of_each_side/2, square.center.y + square.length_of_each_side/2)
+    TL = rg.Point(square.center.x - square.length_of_each_side/2, square.center.y - square.length_of_each_side/2)
+    circle = rg.Circle(square.center, square.length_of_each_side/2)
+    line = rg.Line(rg.Point(circle.center.x - square.length_of_each_side/2, circle.center.y), rg.Point(circle.center.x + square.length_of_each_side/2, circle.center.y))
+    circle.fill_color = colors[0]
+
+    circle.attach_to(window)
+    line.attach_to(window)
+    window.render()
+    for k in range(m-1):
+        BR.x = BR.x + (k+2)*(square.length_of_each_side)
+        BR.y = BR.y + (square.length_of_each_side)*math.sin(60*math.pi/180)
+        TL.x = TL.x + (k+1)*(square.length_of_each_side)
+        TL.y = TL.y - (square.length_of_each_side)*math.sin(60*math.pi/180)
+        rect = rg.Rectangle(BR, TL)
+        hourglass(window, k+2, rect.get_center(), square.length_of_each_side/2, colors[(k+1)%len(colors)])
+        rect.attach_to(window)
+        window.render(.01)
 
 
 # -----------------------------------------------------------------------------
